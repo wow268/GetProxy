@@ -114,7 +114,7 @@ class ProxyCrawler:
     def crawl(self):
         base_url = "https://www.kuaidaili.com/free/inha/"
         # 页号 1-11
-        for page in range(1, 11):
+        for page in range(1, 51):
             success = self.request_get_url(base_url, str(page))
             if not success:
                 break
@@ -126,8 +126,8 @@ class ProxyCrawler:
 
         print(f"成功抓取 {len(self.results)} 个代理IP，正在验证连通性。。。")
 
-        # 使用线程池并发验证（最多10个线程）
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        # 使用线程池并发验证（最多100个线程）
+        with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
             # 使用lambda将实例方法绑定到当前对象
             checked_proxies = list(executor.map(lambda p: self.check_proxy(p), self.results))
     
