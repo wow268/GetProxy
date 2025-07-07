@@ -78,12 +78,15 @@ class ProxyCrawler:
                         self.results.append(f"{ip}:{port}")
 
     def save_results(self, proxies, filename):
+        # 筛选出可用的代理（status == 'OK'）
+        working_proxies = [proxy for proxy in proxies if proxy['status'] == 'OK']
+
         with open(filename, 'w') as f:
             # 写入头部信息
             f.write(f"代理验证结果 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("="*50 + "\n")
             
-            for proxy in proxies:
+            for proxy in working_proxies:
                 f.write(f"{proxy['proxy_str']} - {proxy['status']}\n")
 
             # 统计信息
@@ -127,5 +130,6 @@ class ProxyCrawler:
         print(f"\n可用代理: {ok_count}/{len(checked_proxies)}")
 
 if __name__ == "__main__":
+    print(f"获取中，请等待。。。")
     crawler = ProxyCrawler()
     crawler.crawl()
