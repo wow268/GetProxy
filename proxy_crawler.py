@@ -110,7 +110,7 @@ class ProxyCrawler:
         with open('proxy_results.txt', 'w') as f:
             f.write('\n'.join(self.results))
 
-        print(f"成功抓取 {len(self.results)} 个代理IP")
+        print(f"成功抓取 {len(self.results)} 个代理IP，正在验证连通性。。。")
 
         # 使用线程池并发验证（最多10个线程）
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
@@ -127,9 +127,10 @@ class ProxyCrawler:
     
         # 统计可用代理数量
         ok_count = sum(1 for p in checked_proxies if p['status'] == 'OK')
-        print(f"\n可用代理: {ok_count}/{len(checked_proxies)}")
+        print(f"\n可用代理: {ok_count}/{len(checked_proxies)}，输入回车确认")
 
 if __name__ == "__main__":
     print(f"获取中，请等待。。。")
     crawler = ProxyCrawler()
     crawler.crawl()
+    input()
