@@ -105,6 +105,8 @@ class ProxyCrawler:
             f.write(f"AVL: {ok_count} \n")
             f.write(f"N/A: {len(proxies)-ok_count} \n")
             f.write(f"Rate: {ok_count/len(proxies)*100:.1f}%\n")
+            if working_proxies.count==0:
+                return
             f.write(f"最快延迟: {working_proxies[0]['latency']}ms\n")
             f.write(f"最慢延迟: {working_proxies[-1]['latency']}ms\n")
             f.write(f"平均延迟: {sum(p['latency'] for p in working_proxies)/len(working_proxies):.2f}ms\n")
