@@ -27,6 +27,7 @@ class ProxyCrawler:
         }
     
         try:
+            start_time = time.time()
             # 测试访问百度（超时设置为5秒）
             response = requests.get(
                 'http://www.baidu.com', 
@@ -35,10 +36,13 @@ class ProxyCrawler:
             )
             if response.status_code == 200:
                 proxy_dict['status'] = 'OK'
+                proxy_dict['latency'] = round((time.time() - start_time) * 1000, 2)  # 计算延迟（毫秒）
             else:
                 proxy_dict['status'] = 'NG'
+                proxy_dict['latency'] = float('inf')  # 不可用代理的延迟设为无穷大
         except:
             proxy_dict['status'] = 'NG'
+            proxy_dict['latency'] = float('inf')  # 不可用代理的延迟设为无穷大
     
         return proxy_dict
 
@@ -79,15 +83,21 @@ class ProxyCrawler:
 
     def save_results(self, proxies, filename):
         # 筛选出可用的代理（status == 'OK'）
-        working_proxies = [proxy for proxy in proxies if proxy['status'] == 'OK']
+        working_proxies = sorted(
+        [proxy for proxy in proxies if proxy['status'] == 'OK'],
+        key=lambda x: x['latency']
+        )
 
         with open(filename, 'w') as f:
             # 写入头部信息
-            f.write(f"代理验证结果 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"可用代理验证结果（按延迟排序） - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("="*50 + "\n")
+            f.write("="*70 + "\n")
+            f.write("IP:PORT\t\t延迟(ms)\n")
+            f.write("-"*70 + "\n")
             
             for proxy in working_proxies:
-                f.write(f"{proxy['proxy_str']} - {proxy['status']}\n")
+                f.write(f"{proxy['ip']}:{proxy['port']}\t{proxy['latency']}ms\n")
 
             # 统计信息
             ok_count = sum(1 for p in proxies if p['status'] == 'OK')
@@ -96,6 +106,9 @@ class ProxyCrawler:
             f.write(f"AVL: {ok_count} \n")
             f.write(f"N/A: {len(proxies)-ok_count} \n")
             f.write(f"Rate: {ok_count/len(proxies)*100:.1f}%\n")
+            f.write(f"最快延迟: {working_proxies[0]['latency']}ms\n")
+            f.write(f"最慢延迟: {working_proxies[-1]['latency']}ms\n")
+            f.write(f"平均延迟: {sum(p['latency'] for p in working_proxies)/len(working_proxies):.2f}ms\n")
 
     def crawl(self):
         base_url = "https://www.kuaidaili.com/free/inha/"
