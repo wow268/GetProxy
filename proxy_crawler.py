@@ -113,7 +113,7 @@ class ProxyCrawler:
 
     def crawl(self):
         base_url = "https://www.kuaidaili.com/free/inha/"
-        # 页号 1-11
+        # 页号 1-51
         for page in range(1, 51):
             success = self.request_get_url(base_url, str(page))
             if not success:
