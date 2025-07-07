@@ -91,7 +91,6 @@ class ProxyCrawler:
         with open(filename, 'w') as f:
             # 写入头部信息
             f.write(f"可用代理验证结果（按延迟排序） - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write("="*50 + "\n")
             f.write("="*70 + "\n")
             f.write("IP:PORT\t\t延迟(ms)\n")
             f.write("-"*70 + "\n")
