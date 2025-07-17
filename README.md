@@ -31,7 +31,7 @@ https://github.com/Python3WebSpider/ProxyPool.git
 
 
 首先使用 git clone 将源代码拉到你本地，
-在这里插入图片描述
+
 3.进入proxypool目录，修改settings.py文件，PASSWORD为Redis密码，如果为空，则设置为None。（新装的redis一般没有密码。）
 
 (如果你没 redis 的话，可以先去下载了安装了再来看吧。)
@@ -51,13 +51,13 @@ python
 （如果你把ProxyPool导入在pycharm里面，那就一切都在pycharm里面搞就可以了。
 <img width="323" height="264" alt="image" src="https://github.com/user-attachments/assets/1f4b51d9-cc69-4c65-b179-3dea1742eb1e" />
 
-在这里插入图片描述
+
 6.接下来开启你的 redis服务，
 <img width="1213" height="704" alt="image" src="https://github.com/user-attachments/assets/f473ff40-9b6d-42bc-b224-d9a53c745e4e" />
 
 直接cmd 打开dos窗口，运行：redis-server.exe
 即可开启redis服务器。redis 的默认端口就是 6379
-在这里插入图片描述
+
 7.接着就可以运行 run.py 了。
 
 可以在cmd里面命令方式运行，也可以导入pycharm里面运行。
@@ -65,11 +65,10 @@ python
 图示：
 <img width="1073" height="717" alt="image" src="https://github.com/user-attachments/assets/d43da986-fde5-45d5-9458-3246a16d4a7f" />
 
-在这里插入图片描述
+
 8.运行 run.py 以后，你可以打开你的redis管理工具，或者进入redis里面查看，这时候在你的 redis 中就会存入很多已经爬取到的代理 ip 了：
 <img width="1271" height="658" alt="image" src="https://github.com/user-attachments/assets/d8a3ee5a-af1e-4841-b8f1-2243a7e88e80" />
 
-在这里插入图片描述
 9.项目跑起来之后，【不要停止】，此时redis里面存了ip，就可以访问这个代理池了。
 
 在上面的图中，可以看到有这么一句话
@@ -84,12 +83,11 @@ http://0.0.0.0:5555/random
 
 <img width="949" height="231" alt="image" src="https://github.com/user-attachments/assets/d03ba8b0-6de7-4457-959b-2522539932e1" />
 
-在这里插入图片描述
+
 11.在代码中随机获取一个ip代理
 
 就这样：
 import requests
-# 随机ip代理获取
 PROXY_POOL_URL = 'http://localhost:5555/random'
 def get_proxy():
     try:
